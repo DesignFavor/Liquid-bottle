@@ -30,7 +30,7 @@ export default function App() {
       }}
     >
       <div style={{ flex: 1 }}>
-        <Canvas shadows camera={{ position: [0, 0, 8], fov: 30 }}>
+        <Canvas shadows camera={{ position: [0, 0, 8], fov: 20 }}>
           <ambientLight intensity={1} />
           <Environment preset="warehouse" />
           <OrbitControls makeDefault />
@@ -85,7 +85,7 @@ export default function App() {
             flexWrap: "wrap", // Ensures colors wrap on mobile
           }}
         >
-          {["#56ff34", "#ADD8E6", "#8B4513", "#FFA500", "#D2B48C"].map((color) => (
+          {["#56ff34", "#00a6d5", "#8B4513", "#FFA500", "#f00"].map((color) => (
             <div
               key={color}
               onClick={() => handleColorChange(color)}
