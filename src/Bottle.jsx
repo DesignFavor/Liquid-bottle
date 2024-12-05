@@ -6,7 +6,10 @@ export function Bottle({ color, labelTexture }) {
   const { nodes, materials } = useGLTF("/model/bottle.glb");
 
   // Create a custom material for the label if a label texture is provided
-  const labelMaterial = new THREE.MeshStandardMaterial();
+  const labelMaterial = new THREE.MeshStandardMaterial({
+    roughness: 0.5, // Adjust as needed
+    metalness: 0.8, // Adjust as needed
+  });
   if (labelTexture) {
     const texture = new THREE.TextureLoader().load(labelTexture);
     labelMaterial.map = texture;
@@ -28,7 +31,15 @@ export function Bottle({ color, labelTexture }) {
           castShadow
           receiveShadow
           geometry={nodes.Bottle_Top002.geometry}
-          material={labelTexture ? labelMaterial : materials["123248_schreiner_1_pae-kirschenlikoer_1000"]}
+          material={
+            labelTexture
+              ? labelMaterial
+              : new THREE.MeshStandardMaterial({
+                  ...materials["123248_schreiner_1_pae-kirschenlikoer_1000"],
+                  roughness: 0.5, // Adjust as needed
+                  metalness: 0, // Adjust as needed
+                })
+          }
           position={[0.001, 6.5, 3]}
           rotation={[Math.PI / 2, 0, 0]}
           scale={10.5}
