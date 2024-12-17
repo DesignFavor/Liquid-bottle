@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment, ContactShadows } from "@react-three/drei";
 import { Bottle } from "./Bottle";
@@ -7,7 +7,24 @@ export default function App() {
   const [selectedColor, setSelectedColor] = useState("#FF0000"); // Default color
   const [labelTexture, setLabelTexture] = useState(null); // Uploaded label texture
 
-  const handleColorChange = (color) => setSelectedColor(color);
+  // Parse URL parameters
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const colorFromURL = params.get("color");
+    const labelFromURL = params.get("label");
+
+    if (colorFromURL) {
+      setSelectedColor(colorFromURL);
+    }
+
+    if (labelFromURL) {
+      setLabelTexture(labelFromURL);
+    }
+  }, []);
+
+  const handleColorChange = (color) => {
+    setSelectedColor(color);
+  };
 
   const handleLabelUpload = (event) => {
     const file = event.target.files[0];
@@ -26,19 +43,21 @@ export default function App() {
         height: "100vh",
         fontFamily: "'Poppins', sans-serif",
         backgroundColor: "#F8F9FA",
-        flexWrap: "wrap", // Added to allow wrapping on smaller screens
+        flexWrap: "wrap", 
       }}
     >
       <div style={{ flex: 1 }}>
         <Canvas shadows camera={{ position: [0, 0, 8], fov: 20 }}>
           <ambientLight intensity={1} />
-          <Environment preset="warehouse" />
-          <OrbitControls makeDefault />
+          <Environment files="./ShowcaseEnvy.hdr" />
+          
+          <OrbitControls makeDefault maxPolarAngle={Math.PI / 2} />
+
           <Bottle color={selectedColor} labelTexture={labelTexture} />
           <ContactShadows
-            position={[0, -1.01, 0]}
+            position={[0, -1.02, 0]}
             scale={10}
-            blur={2}
+            blur={0.5}
             far={10}
             opacity={0.75}
           />
@@ -52,7 +71,7 @@ export default function App() {
           backgroundColor: "#FFFFFF",
           boxShadow: "-2px 0 10px rgba(0, 0, 0, 0.2)",
           borderRadius: "15px 0 0 15px",
-          position: "relative", // Allows for absolute positioning of the mobile layout
+          position: "relative", 
         }}
       >
         <h3
@@ -81,8 +100,8 @@ export default function App() {
             display: "flex",
             gap: "10px",
             marginBottom: "30px",
-            justifyContent: "center", // Centered color swatches
-            flexWrap: "wrap", // Ensures colors wrap on mobile
+            justifyContent: "center", 
+            flexWrap: "wrap", 
           }}
         >
           {["#56ff34", "#00a6d5", "#8B4513", "#FFA500", "#f00"].map((color) => (
@@ -118,7 +137,7 @@ export default function App() {
             fontSize: "14px",
             cursor: "pointer",
             transition: "background-color 0.3s",
-            width: "100%", // Full width for mobile
+            width: "100%", 
           }}
           onMouseOver={(e) => (e.target.style.backgroundColor = "#428752")}
           onMouseOut={(e) => (e.target.style.backgroundColor = "#28a745")}
@@ -144,7 +163,7 @@ export default function App() {
               cursor: "pointer",
               transition: "background-color 0.3s",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
-              width: "100%", // Stretch button to full width
+              width: "100%", 
             }}
             onMouseOver={(e) => (e.target.style.backgroundColor = "#218838")}
             onMouseOut={(e) => (e.target.style.backgroundColor = "#28A745")}
@@ -154,41 +173,6 @@ export default function App() {
           <h2 style={{ fontSize: "24px", color: "#212529", left: "10px", marginLeft: "10px" }}>$148</h2>
         </div>
       </div>
-
-      {/* Media Query for Mobile Layout */}
-      <style>
-        {`
-          @media (max-width: 768px) {
-            div {
-              flex-direction: row;
-            }
-
-            div > div:first-child {
-              width: 100%;
-              height: 400px;
-            }
-
-            div > div:last-child {
-              width: 100%;
-              border-radius: 0;
-            }
-
-            div > div:last-child > h1 {
-              font-size: 22px;
-            }
-
-            div > div:last-child > h2 {
-              font-size: 20px;
-            }
-
-            div > div:last-child > .color-swatches {
-              display: flex;
-              flex-wrap: wrap;
-              justify-content: center;
-            }
-          }
-        `}
-      </style>
     </div>
   );
 }
