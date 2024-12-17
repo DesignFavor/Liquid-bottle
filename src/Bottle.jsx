@@ -18,12 +18,10 @@ export function Bottle({ color, labelTexture }) {
   }
 
   const animatedProps = useSpring({
-    from: { positionY: -5, color: "#ffffff" }, // Start position and color
-    to: { positionY: 0, color: color }, // Target position and color
-    config: { mass: 1, tension: 120, friction: 14 }, // Smooth spring config
-    delay: 200, // Animation delay
+    color: color,
+    delay: 500, // Start after 500ms
+    config: { duration: 1000 },
   });
-  
   
 
   return (
