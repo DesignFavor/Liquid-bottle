@@ -1,15 +1,14 @@
 import React from "react";
 import { useGLTF } from "@react-three/drei";
-import { useSpring, animated } from "@react-spring/three"; // Import for animation
+import { useSpring, animated } from "@react-spring/three"; 
 import * as THREE from "three";
 
 export function Bottle({ color, labelTexture }) {
   const { nodes, materials } = useGLTF("/model/bottle.glb");
 
-  // Create a custom material for the label if a label texture is provided
   const labelMaterial = new THREE.MeshStandardMaterial({
-    roughness: 0.5, // Adjust as needed
-    metalness: 0.8, // Adjust as needed
+    roughness: 0.5, 
+    metalness: 0.8, 
   });
 
   if (labelTexture) {
@@ -19,7 +18,7 @@ export function Bottle({ color, labelTexture }) {
 
   const animatedProps = useSpring({
     color: color,
-    delay: 500, // Start after 500ms
+    delay: 500,
     config: { duration: 1000 },
   });
   
@@ -27,7 +26,6 @@ export function Bottle({ color, labelTexture }) {
   return (
     <group position={[0, -1, 0]} dispose={null}>
       <group scale={0.079}>
-        {/* Bottle Top */}
         <mesh
           castShadow
           receiveShadow
@@ -53,15 +51,13 @@ export function Bottle({ color, labelTexture }) {
           rotation={[Math.PI / 2, 0, 0]}
           scale={10.5}
         />
-
-          {/* Glass Bottle */}
           <group position={[0, 3.015, 0]} rotation={[-Math.PI / 2, 0, 0]}>
             <animated.mesh
               castShadow
               receiveShadow
               geometry={nodes.Glass001.geometry}
               material={materials["Glass.003"]}
-              material-color={animatedProps.color} // Smooth color animation
+              material-color={animatedProps.color}
               scale={[0.936, 0.915, 1]}
             />
           <mesh
