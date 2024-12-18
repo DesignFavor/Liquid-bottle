@@ -51,7 +51,7 @@ export default function App() {
           <ambientLight intensity={1} />
           <Environment files="./ShowcaseEnvy.hdr" />
           
-          <OrbitControls makeDefault maxPolarAngle={Math.PI / 2} />
+          <OrbitControls/>
 
           <Bottle color={selectedColor} labelTexture={labelTexture} />
           <ContactShadows
